@@ -1,10 +1,12 @@
 
-
+#include "Arduino.h"
+#include <stdint.h>
+#include "Print.h"
 
 class DLX2416 {
   private:
-    uint8_t PIN_A0 = 8;
-    uint8_t PIN_A1 = 9;
+    uint8_t PIN_ADDRESS0 = 8;
+    uint8_t PIN_ADDRESS1 = 9;
     uint8_t PIN_BL_AL = 12;
     uint8_t PIN_CE1_AL = 12; // null val in my application
     uint8_t PIN_CE2_AL = 12;
@@ -24,8 +26,8 @@ class DLX2416 {
   public:
     DLX2416(uint8_t pinA0 = 8, uint8_t pinA1 = 9, uint8_t pinBL_AL = 12, uint8_t pinCE1_AL = 12, uint8_t pinCE2_AL = 12, uint8_t pinCLR_AL = A2, uint8_t pinCU_AL = A0, uint8_t pinCUE = A3, uint8_t pinD0 = 0, uint8_t pinD1 = 1, uint8_t pinD2 = 2, uint8_t pinD3 = 3, uint8_t pinD4 = 4, uint8_t pinD5 = 5, uint8_t pinD6 = 6, uint8_t pinWR_AL = 7, uint8_t usePortD = true) {
 
-        PIN_A0 = pinA0;
-        PIN_A1 = pinA1;
+        PIN_ADDRESS0 = pinA0;
+        PIN_ADDRESS1 = pinA1;
         PIN_BL_AL = pinBL_AL;
         PIN_CE1_AL = pinCE1_AL; // null val in my application
         PIN_CE2_AL = pinCE2_AL;
@@ -44,8 +46,8 @@ class DLX2416 {
         
     }
     void begin() {
-        pinMode(PIN_A0, OUTPUT);
-        pinMode(PIN_A1, OUTPUT);
+        pinMode(PIN_ADDRESS0, OUTPUT);
+        pinMode(PIN_ADDRESS1, OUTPUT);
         pinMode(PIN_BL_AL, OUTPUT);
         pinMode(PIN_CE1_AL, OUTPUT);
         pinMode(PIN_CE2_AL, OUTPUT);
@@ -79,8 +81,8 @@ class DLX2416 {
     }
 
     void writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
-        digitalWrite(PIN_A0, address && b00000001);
-        digitalWrite(PIN_A1, address && b00000010);
+        digitalWrite(PIN_ADDRESS0, address && B00000001);
+        digitalWrite(PIN_ADDRESS1, address && B00000010);
         
         if (D_USE_PORTD) {
             set_portd(theByte);
@@ -95,8 +97,8 @@ class DLX2416 {
             
         }
         
-        digitalWrite(PIN_CE1_AL, (display && b00000001) == 0);  // active low so inverted
-        digitalWrite(PIN_CE2_AL, (display && b00000010) == 0); // active low so inverted
+        digitalWrite(PIN_CE1_AL, (display && B00000001) == 0);  // active low so inverted
+        digitalWrite(PIN_CE2_AL, (display && B00000010) == 0); // active low so inverted
         
         delayMicroseconds(1);
 
@@ -110,7 +112,7 @@ class DLX2416 {
         digitalWrite(PIN_CLR_AL, HIGH);
         
     }
-}
+};
 
 
 

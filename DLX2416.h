@@ -1,12 +1,12 @@
 
 #include "Arduino.h"
-#include <inttypes.h>
+#include <stdint.h>
 #include "Print.h"
 
 class DLX2416 {
   private:
-    uint8_t PIN_A0;
-    uint8_t PIN_A1;
+    uint8_t PIN_ADDRESS0;
+    uint8_t PIN_ADDRESS1;
     uint8_t PIN_BL_AL;
     uint8_t PIN_CE1_AL;
     uint8_t PIN_CE2_AL;
