@@ -33,4 +33,5 @@ class DLX3416 {
 
     void writeByte(uint8_t display, uint8_t address, uint8_t theByte) ;
     void clear() ;
+    void end() ;
 };

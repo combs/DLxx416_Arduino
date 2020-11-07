@@ -108,3 +108,27 @@ void DLX2416::clear() {
 }
 
 
+void DLX2416::end() {
+    pinMode(PIN_ADDRESS0, INPUT);
+    pinMode(PIN_ADDRESS1, INPUT);
+    pinMode(PIN_BL_AL, INPUT);
+    pinMode(PIN_CE1_AL, INPUT);
+    pinMode(PIN_CE2_AL, INPUT);
+    pinMode(PIN_CLR_AL, INPUT);
+    pinMode(PIN_CU_AL, INPUT);
+    pinMode(PIN_CUE, INPUT);
+    pinMode(PIN_WR_AL, INPUT);
+
+    if (D_USE_PORTD) {
+        DDRD = B00000000;
+    } else {
+        pinMode(PIN_D0, INPUT);
+        pinMode(PIN_D1, INPUT);
+        pinMode(PIN_D2, INPUT);
+        pinMode(PIN_D3, INPUT);
+        pinMode(PIN_D4, INPUT);
+        pinMode(PIN_D5, INPUT);
+        pinMode(PIN_D6, INPUT);
+    }
+}
+
