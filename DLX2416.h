@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include "Print.h"
 
+#define DLX2416_DELAY_MS 5
+
 class DLX2416 {
   private:
     uint8_t PIN_ADDRESS0;

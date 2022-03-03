@@ -10,7 +10,7 @@ DLX2416::DLX2416(uint8_t pinA0, uint8_t pinA1, uint8_t pinBL_AL, uint8_t pinCE1_
     PIN_ADDRESS0 = pinA0;
     PIN_ADDRESS1 = pinA1;
     PIN_BL_AL = pinBL_AL;
-    PIN_CE1_AL = pinCE1_AL; // null val in my application
+    PIN_CE1_AL = pinCE1_AL; 
     PIN_CE2_AL = pinCE2_AL;
     PIN_CLR_AL = pinCLR_AL;
     PIN_CU_AL = pinCU_AL;
@@ -28,6 +28,7 @@ DLX2416::DLX2416(uint8_t pinA0, uint8_t pinA1, uint8_t pinBL_AL, uint8_t pinCE1_
 }
 
 void DLX2416::begin() {
+    
     pinMode(PIN_ADDRESS0, OUTPUT);
     pinMode(PIN_ADDRESS1, OUTPUT);
     pinMode(PIN_BL_AL, OUTPUT);
@@ -42,7 +43,6 @@ void DLX2416::begin() {
         DDRD = B11111111;
         set_portd(B00000000);
     } else {
-
         pinMode(PIN_D0, OUTPUT);
         pinMode(PIN_D1, OUTPUT);
         pinMode(PIN_D2, OUTPUT);
@@ -51,6 +51,9 @@ void DLX2416::begin() {
         pinMode(PIN_D5, OUTPUT);
         pinMode(PIN_D6, OUTPUT);
     }
+
+    digitalWrite(PIN_ADDRESS0, HIGH);
+    digitalWrite(PIN_ADDRESS1, HIGH);
     digitalWrite(PIN_BL_AL, HIGH);
     digitalWrite(PIN_CE1_AL, HIGH);
     digitalWrite(PIN_CE2_AL, HIGH);
@@ -58,19 +61,35 @@ void DLX2416::begin() {
     digitalWrite(PIN_CU_AL, HIGH);
     digitalWrite(PIN_CUE, LOW);
     digitalWrite(PIN_WR_AL, HIGH);
-            
+    
 }
+
 void DLX2416::set_portd(uint8_t theByte) {
+
     uint8_t bit7 = PORTD & B10000000; // save current bit 7
     theByte = theByte & B01111111; // wipe bit 7 in new val
     PORTD = theByte | bit7; // write new vals
+
 }
 
 void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
-    digitalWrite(PIN_ADDRESS0, address & B00000001);
-    digitalWrite(PIN_ADDRESS1, address & B00000010);
 
-    delayMicroseconds(2);
+    digitalWrite(PIN_ADDRESS0, address & 1);
+    digitalWrite(PIN_ADDRESS1, (address >> 1) & 1);
+
+    delayMicroseconds(DLX2416_DELAY_MS);
+
+    // DLx2416 does not support lowercase letters
+
+    if (theByte == '|') {
+        theByte = '1';
+    } else if (theByte == '`') {
+        theByte = '\'';
+    } else if (theByte == '~') {
+        theByte = '-';
+    } else if (theByte >= 'a') {
+        theByte -= 32;
+    }
 
     if (D_USE_PORTD) {
         set_portd(theByte);
@@ -82,19 +101,25 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
         digitalWrite(PIN_D4, theByte & B00010000);
         digitalWrite(PIN_D5, theByte & B00100000);
         digitalWrite(PIN_D6, theByte & B01000000);
-        
     }
     
-    delayMicroseconds(2);
+    delayMicroseconds(DLX2416_DELAY_MS);
 
-    digitalWrite(PIN_CE1_AL, (display & B00000001) == 0);  // active low so inverted
-    digitalWrite(PIN_CE2_AL, (display & B00000010) == 0); // active low so inverted
+    // address 00 = CE1 0, CE2 0
+    // address 01 = CE1 1, CE2 0
+    // address 02 = CE1 0, CE2 1
+    // address 03 = CE1 1, CE2 1
+
+    digitalWrite(PIN_CE1_AL, (display & B00000001) == 1);  // active low so inverted
+    digitalWrite(PIN_CE2_AL, (display & B00000010) == 1); // active low so inverted
     
+    delayMicroseconds(DLX2416_DELAY_MS);
+
     digitalWrite(PIN_WR_AL, LOW);
-    delayMicroseconds(2);
-    
+    delayMicroseconds(DLX2416_DELAY_MS);
     digitalWrite(PIN_WR_AL, HIGH);
-    delayMicroseconds(2);
+
+    delayMicroseconds(DLX2416_DELAY_MS);
 
     digitalWrite(PIN_CE1_AL, HIGH);
     digitalWrite(PIN_CE2_AL, HIGH);
@@ -102,9 +127,8 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
 }
 void DLX2416::clear() {
     digitalWrite(PIN_CLR_AL, LOW);
-    delayMicroseconds(1);
+    delayMicroseconds(DLX2416_DELAY_MS);
     digitalWrite(PIN_CLR_AL, HIGH);
-    
 }
 
 

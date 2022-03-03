@@ -46,7 +46,6 @@ void DLX3416::begin() {
         DDRD = B11111111;
         set_portd(B00000000);
     } else {
-
         pinMode(PIN_D0, OUTPUT);
         pinMode(PIN_D1, OUTPUT);
         pinMode(PIN_D2, OUTPUT);
@@ -55,6 +54,7 @@ void DLX3416::begin() {
         pinMode(PIN_D5, OUTPUT);
         pinMode(PIN_D6, OUTPUT);
     }
+
     digitalWrite(PIN_BL_AL, HIGH);
     digitalWrite(PIN_CE1, LOW);
     digitalWrite(PIN_CE2, LOW);
@@ -67,12 +67,15 @@ void DLX3416::begin() {
             
 }
 void DLX3416::set_portd(uint8_t theByte) {
+
     uint8_t bit7 = PORTD & B10000000; // save current bit 7
     theByte = theByte & B01111111; // wipe bit 7 in new val
     PORTD = theByte | bit7; // write new vals
+
 }
 
 void DLX3416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
+
     digitalWrite(PIN_ADDRESS0, address & B00000001);
     digitalWrite(PIN_ADDRESS1, address & B00000010);
 
@@ -81,10 +84,9 @@ void DLX3416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
     digitalWrite(PIN_CE3_AL, (display & B00000001) == 0);  // active low so inverted
     digitalWrite(PIN_CE4_AL, (display & B00000010) == 0); // active low so inverted
     
-    delayMicroseconds(10);
-
+    delayMicroseconds(DLX3416_DELAY_MS);
     digitalWrite(PIN_WR_AL, LOW);
-    delayMicroseconds(10);
+    delayMicroseconds(DLX3416_DELAY_MS);
     
     if (D_USE_PORTD) {
         set_portd(theByte);
@@ -96,13 +98,11 @@ void DLX3416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
         digitalWrite(PIN_D4, theByte & B00010000);
         digitalWrite(PIN_D5, theByte & B00100000);
         digitalWrite(PIN_D6, theByte & B01000000);
-        
     }
     
-    delayMicroseconds(10);
-    
+    delayMicroseconds(DLX3416_DELAY_MS);
     digitalWrite(PIN_WR_AL, HIGH);
-    delayMicroseconds(10);
+    delayMicroseconds(DLX3416_DELAY_MS);
 
     digitalWrite(PIN_CE1, LOW);
     digitalWrite(PIN_CE2, LOW);
@@ -110,16 +110,17 @@ void DLX3416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
     digitalWrite(PIN_CE4_AL, HIGH);
 
 }
+
 void DLX3416::clear() {
+
     digitalWrite(PIN_CLR_AL, LOW);
     delayMicroseconds(1);
     digitalWrite(PIN_CLR_AL, HIGH);
     
 }
 
-
-
 void DLX3416::end() {
+
     pinMode(PIN_ADDRESS0, INPUT);
     pinMode(PIN_ADDRESS1, INPUT);
     pinMode(PIN_BL_AL, INPUT);
