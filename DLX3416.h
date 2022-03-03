@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "Print.h"
 
-#define DLX3416_DELAY_MS 10
+#define DLX3416_DELAY_US 10
 
 class DLX3416 {
   private:

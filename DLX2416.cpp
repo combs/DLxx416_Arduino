@@ -77,7 +77,7 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
     digitalWrite(PIN_ADDRESS0, address & 1);
     digitalWrite(PIN_ADDRESS1, (address >> 1) & 1);
 
-    delayMicroseconds(DLX2416_DELAY_MS);
+    delayMicroseconds(DLX2416_DELAY_US);
 
     // DLx2416 does not support lowercase letters
 
@@ -103,7 +103,7 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
         digitalWrite(PIN_D6, theByte & B01000000);
     }
     
-    delayMicroseconds(DLX2416_DELAY_MS);
+    delayMicroseconds(DLX2416_DELAY_US);
 
     // address 00 = CE1 0, CE2 0
     // address 01 = CE1 1, CE2 0
@@ -113,13 +113,13 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
     digitalWrite(PIN_CE1_AL, (display & B00000001) > 0);  // active low so inverted
     digitalWrite(PIN_CE2_AL, (display & B00000010) > 0); // active low so inverted
     
-    delayMicroseconds(DLX2416_DELAY_MS);
+    delayMicroseconds(DLX2416_DELAY_US);
 
     digitalWrite(PIN_WR_AL, LOW);
-    delayMicroseconds(DLX2416_DELAY_MS);
+    delayMicroseconds(DLX2416_DELAY_US);
     digitalWrite(PIN_WR_AL, HIGH);
 
-    delayMicroseconds(DLX2416_DELAY_MS);
+    delayMicroseconds(DLX2416_DELAY_US);
 
     digitalWrite(PIN_CE1_AL, HIGH);
     digitalWrite(PIN_CE2_AL, HIGH);
@@ -127,7 +127,7 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
 }
 void DLX2416::clear() {
     digitalWrite(PIN_CLR_AL, LOW);
-    delayMicroseconds(DLX2416_DELAY_MS);
+    delayMicroseconds(DLX2416_DELAY_US);
     digitalWrite(PIN_CLR_AL, HIGH);
 }
 

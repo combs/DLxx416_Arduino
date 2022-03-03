@@ -84,9 +84,9 @@ void DLX3416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
     digitalWrite(PIN_CE3_AL, (display & B00000001) == 0);  // active low so inverted
     digitalWrite(PIN_CE4_AL, (display & B00000010) == 0); // active low so inverted
     
-    delayMicroseconds(DLX3416_DELAY_MS);
+    delayMicroseconds(DLX3416_DELAY_US);
     digitalWrite(PIN_WR_AL, LOW);
-    delayMicroseconds(DLX3416_DELAY_MS);
+    delayMicroseconds(DLX3416_DELAY_US);
     
     if (D_USE_PORTD) {
         set_portd(theByte);
@@ -100,9 +100,9 @@ void DLX3416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
         digitalWrite(PIN_D6, theByte & B01000000);
     }
     
-    delayMicroseconds(DLX3416_DELAY_MS);
+    delayMicroseconds(DLX3416_DELAY_US);
     digitalWrite(PIN_WR_AL, HIGH);
-    delayMicroseconds(DLX3416_DELAY_MS);
+    delayMicroseconds(DLX3416_DELAY_US);
 
     digitalWrite(PIN_CE1, LOW);
     digitalWrite(PIN_CE2, LOW);
