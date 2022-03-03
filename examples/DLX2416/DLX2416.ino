@@ -54,7 +54,7 @@ void loop() {
     display.writeByte(0, 0, 'a');
     delay(5000);  
 
-    // results: screen 0 is set to Hiya
+    // results: screen 0 is set to HIYA (Display only accepts uppercase; library translates)
 
     delay(5000);
 

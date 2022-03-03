@@ -41,7 +41,7 @@ display.writeByte(0, 2, "i");
 display.writeByte(0, 1, "y");
 display.writeByte(0, 0, "a");
 
-// results: screen 0 is set to Hiya
+// results: screen 0 is set to HIYA (Display only accepts uppercase; library translates)
 
 // optionally, to release the pins...
 display.end()
