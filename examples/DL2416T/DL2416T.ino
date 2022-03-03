@@ -1,7 +1,7 @@
 
-#include "DLX2416.h"
+#include "DL2416T.h"
 
-// DLX2416 display(pinA0 = 8, pinA1 = 9, pinBL_AL = 12, pinCE1 = 12, pinCE2 = 12, pinCLR_AL = A2, pinCU_AL = A0, pinCUE = A3, pinD0 = 0, pinD1 = 1, pinD2 = 2, pinD3 = 3, pinD4 = 4, pinD5 = 5, pinD6 = 6, pinWR_AL = 7, usePortD = true);
+// DL2416T display(pinA0 = 8, pinA1 = 9, pinBL_AL = 12, pinCE1 = 12, pinCE2 = 12, pinCLR_AL = A2, pinCU_AL = A0, pinCUE = A3, pinD0 = 0, pinD1 = 1, pinD2 = 2, pinD3 = 3, pinD4 = 4, pinD5 = 5, pinD6 = 6, pinWR_AL = 7, usePortD = true);
 
 // you can omit these pin definitions if they're the same as the defaults. 
 // If you have wired up D0.. D6 on the display to Arduino pins 0-6 and are using an AVR, set usePortD to true for faster writes
@@ -9,7 +9,7 @@
 
 // If you have bound the CE pins to their "True" values (ce1 and ce2 GND) for a single display, just set the pin to something unimportant, like 12 below.
 
-DLX2416 display(/* A0  */ 8, 
+DL2416T display(/* A0  */ 8, 
                 /* A1  */ 9, 
                 /* BL  */ 12, 
                 /* CE1 */ 12, 
@@ -28,7 +28,7 @@ DLX2416 display(/* A0  */ 8,
                 /* usePortD */ true);
  
 // If you are using the exact same pins as the defaults above, and usePortD, you can construct it with:
-// DLX2416 display();
+// DL2416T display();
 
 void setup() {
   
