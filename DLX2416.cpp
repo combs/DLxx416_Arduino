@@ -110,8 +110,8 @@ void DLX2416::writeByte(uint8_t display, uint8_t address, uint8_t theByte) {
     // address 02 = CE1 0, CE2 1
     // address 03 = CE1 1, CE2 1
 
-    digitalWrite(PIN_CE1_AL, (display & B00000001) == 1);  // active low so inverted
-    digitalWrite(PIN_CE2_AL, (display & B00000010) == 1); // active low so inverted
+    digitalWrite(PIN_CE1_AL, (display & B00000001) > 0);  // active low so inverted
+    digitalWrite(PIN_CE2_AL, (display & B00000010) > 0); // active low so inverted
     
     delayMicroseconds(DLX2416_DELAY_MS);
 
